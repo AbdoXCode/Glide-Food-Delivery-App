@@ -1,5 +1,7 @@
 import { router, Stack } from "expo-router";
 import { useEffect } from "react";
+import CartProvider from "../contexts/CartContext";
+import RestaurantProvider from "../contexts/RestaurantContext";
 import UserProvider from "../contexts/UserContext";
 import useUser from "../hooks/useUser";
 
@@ -19,12 +21,16 @@ function NavigationHandler() {
 export default function RootLayout() {
   return (
     <UserProvider>
-      <NavigationHandler />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      />
+      <RestaurantProvider>
+        <CartProvider>
+          <NavigationHandler />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          />
+        </CartProvider>
+      </RestaurantProvider>
     </UserProvider>
   );
 }

@@ -1,9 +1,13 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function RestaurantCard({ restaurant }) {
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => router.push(`/restaurants/${restaurant.id}`)}
+    >
       <Image source={{ uri: restaurant.image_url }} style={styles.image} />
       <View style={{ paddingHorizontal: 10, paddingVertical: 10 }}>
         <View style={styles.info}>
@@ -16,11 +20,11 @@ export default function RestaurantCard({ restaurant }) {
             <Text style={styles.cuisineTag}>{restaurant.cuisine_type}</Text>
           </View>
           <View style={styles.tag}>
-            <Ionicons name="time-outline" size={16} color="#ffffff" />
+            <Ionicons name="time" size={16} color="#ffffff" />
             <Text style={styles.cuisineTag}>30 min</Text>
           </View>
           <View style={styles.tag}>
-            <Ionicons name="bicycle" size={16} color="#ffffff" />
+            <MaterialIcons name="delivery-dining" size={16} color="#ffffff" />
             <Text style={styles.cuisineTag}>14 EGP</Text>
           </View>
         </View>

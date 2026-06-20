@@ -18,7 +18,12 @@ export default function Home() {
 
   const { restaurants, popularRestaurants } = useRestaurants();
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
+      stickyHeaderHiddenOnScroll={true}
+    >
       {/* header */}
       <View style={[{ paddingTop: inset.top }, styles.header]}>
         <View style={styles.statusBar}>
@@ -49,52 +54,50 @@ export default function Home() {
         </TouchableOpacity>
       </View>
       {/* content */}
-      <ScrollView>
-        <View style={{ paddingTop: 16, paddingHorizontal: 16 }}>
-          {/* offer list */}
-          <OfferList
-            img={[
-              require("../../assets/images/papa johns.jpg"),
-              require("../../assets/images/papa ranch.jpg"),
-              require("../../assets/images/domino.jpg"),
-            ]}
-          />
-        </View>
+      <View style={{ paddingTop: 16, paddingHorizontal: 16 }}>
+        {/* offer list */}
+        <OfferList
+          img={[
+            require("../../assets/images/papa johns.jpg"),
+            require("../../assets/images/papa ranch.jpg"),
+            require("../../assets/images/domino.jpg"),
+          ]}
+        />
+      </View>
 
-        <View
-          style={{
-            // flex: 1,
-            paddingHorizontal: 16,
-            paddingVertical: 16,
-          }}
-        >
-          <Text style={styles.sectionTitle}>Fastest Near You</Text>
-          <RestaurantList restaurants={restaurants} />
+      <View
+        style={{
+          // flex: 1,
+          paddingHorizontal: 16,
+          paddingVertical: 16,
+        }}
+      >
+        <Text style={styles.sectionTitle}>Fastest Near You</Text>
+        <RestaurantList restaurants={restaurants} />
 
-          <Text style={[styles.sectionTitle, { marginTop: 16 }]}>
-            Highest Rating
-          </Text>
-          <RestaurantList restaurants={popularRestaurants} />
-        </View>
-      </ScrollView>
-    </View>
+        <Text style={[styles.sectionTitle, { marginTop: 16 }]}>
+          Highest Rating
+        </Text>
+        <RestaurantList restaurants={popularRestaurants} />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#ffffff" },
   header: {
-    height: 150,
-    width: "100%",
     backgroundColor: colors.light.primaryColor,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     justifyContent: "flex-start",
-    alignItems: "center",
+    alignItems: "stretch",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
   },
   searchBox: {
     flexDirection: "row",
-    width: "90%",
+    width: "100%",
     height: 40,
     backgroundColor: "#ffffff",
     borderRadius: 25,
@@ -117,8 +120,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "90%",
-    marginTop: 10,
+    width: "100%",
+    marginTop: 6,
   },
   sectionTitle: {
     fontSize: 20,

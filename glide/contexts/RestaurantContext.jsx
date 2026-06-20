@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import {
+  getMenuByRestaurantId,
   getPopularRestaurants,
+  getRestaurantById,
   getRestaurants,
   recommendRestaurants,
 } from "../services/api";
@@ -41,22 +43,46 @@ export default function RestaurantProvider({ children }) {
     }
   }
 
+  async function fetchRestaurantDetails(id) {
+    try {
+      const restaurant = await getRestaurantById(id);
+      return restaurant;
+    } catch (error) {
+      console.error("Error fetching restaurant details:", error);
+      throw error;
+    }
+  }
+
+  async function fetchRestaurantMenu(id) {
+    try {
+      const menu = await getMenuByRestaurantId(id);
+      return menu;
+    } catch (error) {
+      console.error("Error fetching restaurant menu:", error);
+      throw error;
+    }
+  }
+
   useEffect(() => {
     fetchRestaurants();
     fetchPopularRestaurants();
-    console.log();
   }, []);
 
   useEffect(() => {
     if (user && user?.user?.id) {
       fetchRecommendedRestaurants(user.user.id);
-      console.log("Fetching recommended restaurants for user:", user.user.id);
     }
   }, [user]);
 
   return (
     <RestaurantContext.Provider
-      value={{ restaurants, popularRestaurants, recommendedRestaurants }}
+      value={{
+        restaurants,
+        popularRestaurants,
+        recommendedRestaurants,
+        fetchRestaurantDetails,
+        fetchRestaurantMenu,
+      }}
     >
       {children}
     </RestaurantContext.Provider>
