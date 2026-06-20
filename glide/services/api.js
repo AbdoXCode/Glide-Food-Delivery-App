@@ -40,20 +40,6 @@ export async function recommendRestaurants(userId) {
     throw error;
   }
 }
-
-async function getRestaurantById(id) {
-  try {
-    const response = await fetch(
-      `https://simulated-piper-auxilytic.ngrok-free.dev/restaurants/${id}`,
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching restaurant by ID:", error);
-    throw error;
-  }
-}
-
 export async function loginUser(email, password) {
   try {
     const response = await fetch(
@@ -107,3 +93,42 @@ export async function registerUser(name, email, password, address, phone) {
     throw error;
   }
 }
+
+export async function getRestaurantById(id) {
+  try {
+    const response = await fetch(
+      `https://simulated-piper-auxilytic.ngrok-free.dev/restaurant/${id}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching restaurant by ID:", error);
+    throw error;
+  }
+}
+
+export async function getMenuByRestaurantId(restaurantId) {
+  try {
+    const response = await fetch(
+      `https://simulated-piper-auxilytic.ngrok-free.dev/restaurant/${restaurantId}/menu`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching menu by restaurant ID:", error);
+    throw error;
+  }
+}
+
+// export async function getMenuItemById(itemId) {
+//   try {
+//     const response = await fetch(
+//       `https://simulated-piper-auxilytic.ngrok-free.dev/menu/${itemId}`,
+//     );
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.error("Error fetching menu item by ID:", error);
+//     throw error;
+//   }
+// }
