@@ -1,15 +1,54 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import useCart from "../../hooks/useCart";
 
 export default function MenuItemDetails() {
   const { id, menuItem } = useLocalSearchParams();
 
   const parsedMenuItem = menuItem ? JSON.parse(menuItem) : null;
-  console.log("Menu item data:", parsedMenuItem);
 
   const [quantity, setQuantity] = useState(1);
+
+  const { addToCart, clearCart } = useCart();
+
+  function handleAddToCart() {
+    const result = addToCart({ ...parsedMenuItem, quantity });
+
+    console.log("Add to Cart Result:", result);
+
+    if (result.success) {
+      router.back(); // Navigate back to the previous screen after adding to cart
+    }
+    if (!result.success) {
+      Alert.alert(
+        "Different restaurant",
+        `Your cart contains items from another restaurant. Do you want to clear it and add this item?`,
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Clear Cart",
+            onPress: () => {
+              clearCart();
+              addToCart({ ...parsedMenuItem, quantity });
+              router.back(); // Navigate back to the previous screen after clearing the cart
+            },
+          },
+        ],
+      );
+    }
+  }
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -67,7 +106,7 @@ export default function MenuItemDetails() {
           <TouchableOpacity
             style={styles.addToCartButton}
             onPress={() => {
-              router.back();
+              handleAddToCart();
             }}
           >
             <Text

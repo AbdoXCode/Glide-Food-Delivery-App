@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CartBar from "../../components/CartBar";
 import MenuCard from "../../components/MenuCard";
 import RestaurantHeaderContainer from "../../components/RestaurantHeaderContainer";
+import useCart from "../../hooks/useCart";
 import useRestaurants from "../../hooks/useRestaurants";
 
 export default function RestaurantDetails() {
@@ -12,6 +13,7 @@ export default function RestaurantDetails() {
   const inset = useSafeAreaInsets();
 
   const { fetchRestaurantDetails, fetchRestaurantMenu } = useRestaurants();
+  const { cartItems, cartTotal, cartLength } = useCart();
 
   const [restaurant, setRestaurant] = useState(null);
   const [menu, setMenu] = useState([]);
@@ -53,7 +55,13 @@ export default function RestaurantDetails() {
         renderItem={({ item }) => <MenuCard item={item} />}
       />
 
-      <CartBar />
+      {cartLength() > 0 && (
+        <CartBar
+          cartItems={cartItems}
+          cartTotal={cartTotal}
+          cartLength={cartLength}
+        />
+      )}
     </View>
   );
 }
