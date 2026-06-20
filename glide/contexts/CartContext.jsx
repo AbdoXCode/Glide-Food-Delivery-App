@@ -1,4 +1,5 @@
-import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 
 export const CartContext = React.createContext();
@@ -25,6 +26,19 @@ export default function CartProvider({ children }) {
 
         return prevItems;
       }
+
+      const existingItem = prevItems.find(
+        (cartItem) => cartItem.id === item.id,
+      );
+
+      if (existingItem) {
+        return prevItems.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+            : cartItem,
+        );
+      }
+
       return [...prevItems, item]; // same restaurant
     });
     return result;
@@ -44,8 +58,47 @@ export default function CartProvider({ children }) {
   function cartLength() {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   }
-  console.log("Cart Items:", cartItems);
-  console.log("Total Price:", cartTotal());
+
+  const updateQuantity = (id, quantity) => {
+    if (quantity === 0) {
+      deleteCartItem(id);
+      return;
+    }
+    setCartItems((items) =>
+      items.map((item) => (item.id === id ? { ...item, quantity } : item)),
+    );
+  };
+
+  function deleteCartItem(itemId) {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  }
+  async function saveCartToStorage() {
+    try {
+      await AsyncStorage.setItem("cart", JSON.stringify(cartItems));
+    } catch (error) {
+      console.error("Error saving cart to storage:", error);
+    }
+  }
+
+  async function loadCartFromStorage() {
+    try {
+      const storedCart = await AsyncStorage.getItem("cart");
+      if (storedCart) {
+        setCartItems(JSON.parse(storedCart));
+      }
+    } catch (error) {
+      console.error("Error loading cart from storage:", error);
+    }
+  }
+
+  useEffect(() => {
+    loadCartFromStorage();
+  }, []);
+
+  useEffect(() => {
+    saveCartToStorage();
+  }, [cartItems]);
+
   return (
     <CartContext.Provider
       value={{
@@ -55,6 +108,8 @@ export default function CartProvider({ children }) {
         clearCart,
         cartTotal,
         cartLength,
+        updateQuantity,
+        deleteCartItem,
       }}
     >
       {children}

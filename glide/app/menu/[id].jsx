@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import QuantityContainer from "../../components/QuantityContainer";
 import useCart from "../../hooks/useCart";
 
 export default function MenuItemDetails() {
@@ -87,21 +88,10 @@ export default function MenuItemDetails() {
             gap: 8,
           }}
         >
-          <View style={styles.quantityContainer}>
-            <TouchableOpacity
-              onPress={() => setQuantity(Math.max(1, quantity - 1))}
-            >
-              <Ionicons name="remove" size={22} color="#000" />
-            </TouchableOpacity>
-
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>{quantity}</Text>
-
-            <TouchableOpacity
-              onPress={() => setQuantity(Math.min(99, quantity + 1))}
-            >
-              <Ionicons name="add" size={22} color="#000" />
-            </TouchableOpacity>
-          </View>
+          <QuantityContainer
+            item={{ ...parsedMenuItem, quantity }}
+            updateQuantity={(_, newQuantity) => setQuantity(newQuantity)}
+          />
 
           <TouchableOpacity
             style={styles.addToCartButton}
@@ -151,16 +141,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 20,
   },
-  quantityContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    borderRadius: 50,
-  },
+
   addToCartButton: {
     backgroundColor: "#3EC8B1",
     padding: 12,

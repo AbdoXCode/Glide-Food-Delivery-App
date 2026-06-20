@@ -18,6 +18,10 @@ export default function RestaurantDetails() {
   const [restaurant, setRestaurant] = useState(null);
   const [menu, setMenu] = useState([]);
 
+  const showCartBar =
+    cartLength() > 0 &&
+    cartItems.every((item) => item.restaurant_id === Number(id));
+
   useEffect(() => {
     async function loadData() {
       const details = await fetchRestaurantDetails(id);
@@ -55,7 +59,7 @@ export default function RestaurantDetails() {
         renderItem={({ item }) => <MenuCard item={item} />}
       />
 
-      {cartLength() > 0 && (
+      {showCartBar && (
         <CartBar
           cartItems={cartItems}
           cartTotal={cartTotal}

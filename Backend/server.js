@@ -229,24 +229,6 @@ app.get("/restaurant/:id/menu", async (req, res) => {
   }
 });
 
-// app.get("/menu/:id", async (req, res) => {
-//   const menuItemId = req.params.id;
-//   try {
-//     const response = await db.query("SELECT * FROM menu_items WHERE id = $1", [
-//       menuItemId,
-//     ]);
-//     if (response.rows.length === 0) {
-//       return res.status(404).json({ message: "Menu item not found" });
-//     }
-//     res.status(200).json(response.rows[0]);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({
-//       message: "Server error or database error",
-//     });
-//   }
-// });
-
 // Start listening for client requests
 app.listen(PORT, () => {
   console.log(`🚀 Node.js App Gateway running on http://192.168.1.201:${PORT}`);
