@@ -49,7 +49,7 @@ export default function RestaurantHeaderContainer({ restaurant }) {
         </Text>
         <Text>
           Delivered by{" "}
-          <Text style={{ fontWeight: "bold", color: "#3EC8B1", fontSize: 18 }}>
+          <Text style={{ fontWeight: "bold", color: "#3EC8B1", fontSize: 16 }}>
             Glide
           </Text>
         </Text>
@@ -60,7 +60,7 @@ export default function RestaurantHeaderContainer({ restaurant }) {
 
 const styles = StyleSheet.create({
   restaurantContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     borderRadius: 20,
     shadowColor: "#000",
     borderWidth: 1,
@@ -114,6 +114,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    gap: 6,
+    gap: 4,
   },
 });
