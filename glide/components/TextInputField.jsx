@@ -13,9 +13,10 @@ export default function TextInputField({
   onTogglePassword,
   keyboardType = "default",
   style,
+  editable = true,
 }) {
   return (
-    <View style={styles.fieldGroup}>
+    <View style={[styles.fieldGroup, style]}>
       {label && <Text style={styles.label}>{label}</Text>}
       <View style={[styles.inputContainer, style]}>
         {icon && (
@@ -34,6 +35,7 @@ export default function TextInputField({
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
+          editable={editable}
         />
         {isPasswordField && (
           <Pressable onPress={onTogglePassword} style={styles.eyeIcon}>

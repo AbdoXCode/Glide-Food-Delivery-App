@@ -58,8 +58,12 @@ app.post("/login", async (req, res) => {
       message: "Login successful",
       user: {
         id: user.id,
+        name: user.name,
         email: user.email,
+        phone_number: user.phone_number,
         username: user.username,
+        address: user.address,
+        password: user.password,
       },
     });
   } catch (err) {
@@ -95,7 +99,7 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await db.query(
-      "INSERT INTO users(email,password,name,phone_number,address) VALUES($1,$2,$3,$4,$5) RETURNING id,email,name",
+      "INSERT INTO users(email,password,name,phone_number,address) VALUES($1,$2,$3,$4,$5) RETURNING id,email,name,phone_number,address,password",
       [email, hashedPassword, name, phone_number, address],
     );
 
@@ -105,8 +109,12 @@ app.post("/register", async (req, res) => {
       message: "Account created successfully",
       user: {
         id: user.id,
+        name: user.name,
         email: user.email,
+        phone_number: user.phone_number,
         username: user.username,
+        address: user.address,
+        password: user.password,
       },
     });
   } catch (err) {
@@ -313,6 +321,33 @@ app.post("/order-items", async (req, res) => {
     res
       .status(201)
       .json({ message: "Order item added successfully", ok: true });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({
+      message: "Server error or database error",
+    });
+  }
+});
+
+app.put("/profile/:id", async (req, res) => {
+  const userId = req.params.id;
+  const { name, email, phone_number, address } = req.body;
+  try {
+    const userResult = await db.query(
+      "UPDATE users SET name=$1, email=$2, phone_number=$3, address=$4 WHERE id=$5 RETURNING id, email, name, phone_number, address",
+      [name, email, phone_number, address, userId],
+    );
+    res.status(200).json({
+      user: {
+        id: userResult.rows[0].id,
+        email: userResult.rows[0].email,
+        name: userResult.rows[0].name,
+        phone_number: userResult.rows[0].phone_number,
+        address: userResult.rows[0].address,
+      },
+      ok: true,
+      message: "Profile updated successfully",
+    });
   } catch (err) {
     console.log(err.message);
     res.status(500).json({

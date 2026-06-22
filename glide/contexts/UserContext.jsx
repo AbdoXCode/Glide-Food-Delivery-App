@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState } from "react";
-import { loginUser, registerUser } from "../services/api";
+import { loginUser, registerUser, updateUserProfile } from "../services/api";
 
 export const UserContext = createContext();
 
@@ -11,6 +11,7 @@ export default function UserProvider({ children }) {
   async function login(email, password) {
     try {
       const data = await loginUser(email, password);
+      console.log("Login successful, user data:", data);
       setUser(data);
       setLoading(false);
       await AsyncStorage.setItem("user", JSON.stringify(data));
@@ -29,6 +30,23 @@ export default function UserProvider({ children }) {
     } catch (error) {
       console.error("Error registering(from context):", error);
       throw error; // Rethrow the error to be handled by the caller
+    }
+  }
+
+  async function updateUser(name, email, phone_number, address) {
+    try {
+      const updatedUser = await updateUserProfile(
+        user.user.id,
+        name,
+        email,
+        phone_number,
+        address,
+      );
+      setUser(updatedUser);
+      await AsyncStorage.setItem("user", JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      throw error;
     }
   }
 
@@ -51,9 +69,16 @@ export default function UserProvider({ children }) {
       setLoading(false);
     }
   }
-  console.log("UserContext user:", user);
+
+  async function logOut() {
+    setUser(null);
+    await AsyncStorage.removeItem("user");
+  }
+
   return (
-    <UserContext.Provider value={{ user, loading, login, register }}>
+    <UserContext.Provider
+      value={{ user, loading, login, register, updateUser, logOut }}
+    >
       {children}
     </UserContext.Provider>
   );

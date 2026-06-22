@@ -54,6 +54,7 @@ export async function loginUser(email, password) {
     );
 
     const data = await response.json();
+    console.log("Login response data:", data);
 
     if (!response.ok) {
       throw new Error(data.message || "Login failed");
@@ -199,6 +200,38 @@ export async function submitOrderItem(
     return data;
   } catch (error) {
     console.error("Error submitting order item:", error);
+    throw error;
+  }
+}
+
+export async function updateUserProfile(
+  userId,
+  name,
+  email,
+  phone_number,
+  address,
+) {
+  try {
+    const response = await fetch(
+      `https://simulated-piper-auxilytic.ngrok-free.dev/profile/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone_number,
+          address,
+        }),
+      },
+    );
+    const data = await response.json();
+    console.log("User profile updated successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error updating user profile:", error);
     throw error;
   }
 }
