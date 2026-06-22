@@ -34,14 +34,14 @@ export default function RestaurantHeaderContainer({ restaurant }) {
       <View style={styles.bottomSection}>
         <View style={{ flexDirection: "row", gap: 2, alignItems: "center" }}>
           <MaterialIcons name="delivery-dining" size={16} color="#000" />
-          <Text>14 EGP</Text>
+          <Text>{restaurant?.delivery_fee} EGP</Text>
         </View>
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "#959595" }}>
           •
         </Text>
         <View style={{ flexDirection: "row", gap: 2, alignItems: "center" }}>
           <Ionicons name="time-outline" size={16} color="#000" />
-          <Text>30 min</Text>
+          <Text>{restaurant?.delivery_time} min</Text>
         </View>
 
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "#959595" }}>

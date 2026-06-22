@@ -1,3 +1,4 @@
+import { submitOrderApi, submitOrderItem } from "@/services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
@@ -46,8 +47,9 @@ export default function CartProvider({ children }) {
   function removeFromCart(itemId) {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   }
-  function clearCart() {
+  async function clearCart() {
     setCartItems([]);
+    await AsyncStorage.removeItem("cart");
   }
   function cartTotal() {
     return cartItems.reduce(
@@ -59,7 +61,7 @@ export default function CartProvider({ children }) {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   }
 
-  const updateQuantity = (id, quantity) => {
+  function updateQuantity(id, quantity) {
     if (quantity === 0) {
       deleteCartItem(id);
       return;
@@ -67,7 +69,7 @@ export default function CartProvider({ children }) {
     setCartItems((items) =>
       items.map((item) => (item.id === id ? { ...item, quantity } : item)),
     );
-  };
+  }
 
   function deleteCartItem(itemId) {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
@@ -80,6 +82,32 @@ export default function CartProvider({ children }) {
     }
   }
 
+  async function submitOrderItems(orderId, cartItems) {
+    for (const item of cartItems) {
+      console.log(item);
+      await submitOrderItem(orderId, item.id, item.quantity, item.price);
+    }
+  }
+  async function submitOrder(userId, restaurantId, status, total) {
+    try {
+      const response = await submitOrderApi(
+        userId,
+        restaurantId,
+        status,
+        total,
+      );
+
+      if (response.ok) {
+        const orderId = response.id;
+        await submitOrderItems(orderId, cartItems);
+        await clearCart();
+      }
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    }
+  }
+
+  // async function
   async function loadCartFromStorage() {
     try {
       const storedCart = await AsyncStorage.getItem("cart");
@@ -110,6 +138,7 @@ export default function CartProvider({ children }) {
         cartLength,
         updateQuantity,
         deleteCartItem,
+        submitOrder,
       }}
     >
       {children}

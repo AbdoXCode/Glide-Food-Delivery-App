@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -5,10 +6,12 @@ import CartSummary from "../../components/CartSummary";
 import QuantityContainerCart from "../../components/QuantityContainerCart";
 import useCart from "../../hooks/useCart";
 import useRestaurants from "../../hooks/useRestaurants";
+import useUser from "../../hooks/useUser";
 
 export default function cart() {
-  const { cartItems, cartTotal, updateQuantity } = useCart();
+  const { cartItems, cartTotal, updateQuantity, submitOrder } = useCart();
   const { fetchRestaurantDetails } = useRestaurants();
+  const { user } = useUser();
 
   const inset = useSafeAreaInsets();
 
@@ -38,7 +41,7 @@ export default function cart() {
     );
   } else {
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
+      <View style={{ flex: 1, backgroundColor: "#fff", padding: 16 }}>
         <FlatList
           style={{ paddingTop: inset.top }}
           data={cartItems}
@@ -62,7 +65,6 @@ export default function cart() {
                 </Text>
               </View>
 
-              {console.log("Cart Item Image URL:", item)}
               <View style={styles.imageContainerQuantity}>
                 <Image
                   source={{
@@ -89,7 +91,19 @@ export default function cart() {
           )}
         />
 
-        <CartSummary cartTotal={cartTotal} />
+        <CartSummary
+          cartTotal={cartTotal}
+          deliveryFee={restaurant?.delivery_fee}
+          onCheckout={() => {
+            submitOrder(
+              user?.user.id,
+              restaurant?.id,
+              "pending",
+              cartTotal() + (restaurant?.delivery_fee ?? 0) + 5,
+            );
+            router.navigate("/orders");
+          }}
+        />
       </View>
     );
   }
@@ -97,8 +111,9 @@ export default function cart() {
 
 const styles = StyleSheet.create({
   headerCart: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
+    color: "#0F172A",
   },
   restaurantNameCart: {
     fontSize: 15,

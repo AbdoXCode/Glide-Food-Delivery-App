@@ -24,8 +24,6 @@ export default function MenuItemDetails() {
   function handleAddToCart() {
     const result = addToCart({ ...parsedMenuItem, quantity });
 
-    console.log("Add to Cart Result:", result);
-
     if (result.success) {
       router.back(); // Navigate back to the previous screen after adding to cart
     }

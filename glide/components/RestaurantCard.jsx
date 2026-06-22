@@ -21,11 +21,13 @@ export default function RestaurantCard({ restaurant }) {
           </View>
           <View style={styles.tag}>
             <Ionicons name="time" size={16} color="#ffffff" />
-            <Text style={styles.cuisineTag}>30 min</Text>
+            <Text style={styles.cuisineTag}>
+              {restaurant.delivery_time} min
+            </Text>
           </View>
           <View style={styles.tag}>
             <MaterialIcons name="delivery-dining" size={16} color="#ffffff" />
-            <Text style={styles.cuisineTag}>14 EGP</Text>
+            <Text style={styles.cuisineTag}>{restaurant.delivery_fee} EGP</Text>
           </View>
         </View>
       </View>

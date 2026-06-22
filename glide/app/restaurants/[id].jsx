@@ -39,8 +39,6 @@ export default function RestaurantDetails() {
       <ActivityIndicator size="large" color="#3EC8B1" style={{ flex: 1 }} />
     );
   }
-
-  //   console.log("Menu data:", menu);
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <FlatList

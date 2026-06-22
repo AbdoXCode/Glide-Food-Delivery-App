@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function CartSummary({ cartTotal }) {
+export default function CartSummary({ cartTotal, deliveryFee, onCheckout }) {
   return (
     <View>
       <View style={{ marginVertical: 20, gap: 10 }}>
@@ -10,7 +10,7 @@ export default function CartSummary({ cartTotal }) {
         </View>
         <View style={styles.feeRow}>
           <Text>Delivery Fee</Text>
-          <Text>14.00</Text>
+          <Text>{deliveryFee?.toFixed(2)}</Text>
         </View>
 
         <View style={styles.feeRow}>
@@ -20,11 +20,11 @@ export default function CartSummary({ cartTotal }) {
 
         <View style={styles.feeRow}>
           <Text style={styles.totalText}>Total amount (EGP) </Text>
-          <Text>{(cartTotal() + 14.0 + 5.0).toFixed(2)}</Text>
+          <Text>{(cartTotal() + (deliveryFee || 0) + 5.0).toFixed(2)}</Text>
         </View>
       </View>
 
-      <TouchableOpacity style={styles.checkoutButton}>
+      <TouchableOpacity style={styles.checkoutButton} onPress={onCheckout}>
         <Text style={styles.checkoutButtonText}>Checkout</Text>
       </TouchableOpacity>
     </View>

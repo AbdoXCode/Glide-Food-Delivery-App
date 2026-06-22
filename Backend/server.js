@@ -229,6 +229,97 @@ app.get("/restaurant/:id/menu", async (req, res) => {
   }
 });
 
+app.get("/orders/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const response = await db.query(
+      `SELECT orders.*, restaurants.name AS restaurant_name,restaurants.delivery_fee
+      FROM orders
+      JOIN restaurants ON orders.restaurant_id = restaurants.id
+      WHERE orders.user_id = $1
+      ORDER BY orders.created_at DESC;`,
+      [userId],
+    );
+
+    if (response.rows.length === 0) {
+      return res.status(404).json({ message: "No orders found for this user" });
+    }
+    res.status(200).json(response.rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Server error or database error",
+    });
+  }
+});
+
+app.get("/order/:orderId", async (req, res) => {
+  const orderId = req.params.orderId;
+
+  try {
+    const response = await db.query(
+      `SELECT 
+      orders.id AS order_id,
+      menu_items.name,
+      menu_items.image_url,
+      order_items.quantity,
+      menu_items.price
+      FROM orders
+      JOIN order_items 
+      ON orders.id = order_items.order_id
+      JOIN menu_items
+      ON order_items.menu_item_id = menu_items.id
+      WHERE orders.id = $1
+      ORDER BY orders.created_at DESC;`,
+      [orderId],
+    );
+    res.status(200).json(response.rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Server error or database error",
+    });
+  }
+});
+
+app.post("/order", async (req, res) => {
+  const { userId, restaurantId, status, totalPrice } = req.body;
+  try {
+    const orderResult = await db.query(
+      "INSERT INTO orders(user_id, restaurant_id, status, total_price) VALUES($1, $2, $3, $4) RETURNING id",
+      [userId, restaurantId, status, totalPrice],
+    );
+    res.status(201).json({
+      id: orderResult.rows[0].id,
+      ok: true,
+      message: "Order created successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Server error or database error",
+    });
+  }
+});
+
+app.post("/order-items", async (req, res) => {
+  const { orderId, menuItemId, quantity, priceAtPurchase } = req.body;
+  try {
+    await db.query(
+      "INSERT INTO order_items(order_id, menu_item_id, quantity, price_at_purchase) VALUES($1, $2, $3, $4)",
+      [orderId, menuItemId, quantity, priceAtPurchase],
+    );
+    res
+      .status(201)
+      .json({ message: "Order item added successfully", ok: true });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({
+      message: "Server error or database error",
+    });
+  }
+});
 // Start listening for client requests
 app.listen(PORT, () => {
   console.log(`🚀 Node.js App Gateway running on http://192.168.1.201:${PORT}`);

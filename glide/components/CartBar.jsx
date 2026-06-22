@@ -2,8 +2,6 @@ import { router } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function CartBar({ cartItems, cartTotal, cartLength }) {
-  // cartLength = cartItems;
-  console.log("Cart Items in CartBar:", cartItems);
   return (
     <TouchableOpacity
       style={styles.cartBar}

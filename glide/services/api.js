@@ -120,15 +120,85 @@ export async function getMenuByRestaurantId(restaurantId) {
   }
 }
 
-// export async function getMenuItemById(itemId) {
-//   try {
-//     const response = await fetch(
-//       `https://simulated-piper-auxilytic.ngrok-free.dev/menu/${itemId}`,
-//     );
-//     const data = await response.json();
-//     return data;
-//   } catch (error) {
-//     console.error("Error fetching menu item by ID:", error);
-//     throw error;
-//   }
-// }
+export async function getOrdersByUserId(userId) {
+  try {
+    const response = await fetch(
+      `https://simulated-piper-auxilytic.ngrok-free.dev/orders/${userId}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching orders by user ID:", error);
+    throw error;
+  }
+}
+
+export async function getOrderDetails(orderId) {
+  try {
+    const response = await fetch(
+      `https://simulated-piper-auxilytic.ngrok-free.dev/order/${orderId}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching order details:", error);
+    throw error;
+  }
+}
+
+export async function submitOrderApi(userId, restaurantId, status, totalPrice) {
+  try {
+    const response = await fetch(
+      "https://simulated-piper-auxilytic.ngrok-free.dev/order",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          restaurantId,
+          status,
+          totalPrice,
+        }),
+      },
+    );
+    const data = await response.json();
+    console.log("Order submitted successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error submitting order:", error);
+    throw error;
+  }
+}
+
+export async function submitOrderItem(
+  orderId,
+  menuItemId,
+  quantity,
+  priceAtPurchase,
+) {
+  try {
+    const response = await fetch(
+      "https://simulated-piper-auxilytic.ngrok-free.dev/order-items",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId,
+          menuItemId,
+          quantity,
+          priceAtPurchase,
+        }),
+      },
+    );
+    const data = await response.json();
+    console.log("Order item submitted successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error submitting order item:", error);
+    throw error;
+  }
+}
