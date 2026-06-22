@@ -171,7 +171,9 @@ app.get("/recommended-restaurants/:id", async (req, res) => {
           r.id AS id,
           r.name AS name,
           r.rating AS rating,
-          r.image_url AS image_url
+          r.image_url AS image_url,
+          r.delivery_fee AS delivery_fee,
+          r.delivery_time AS delivery_time
         FROM menu_items m
         JOIN restaurants r
           ON r.id = m.restaurant_id

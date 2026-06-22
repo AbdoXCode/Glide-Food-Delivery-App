@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import CartProvider from "../contexts/CartContext";
 import OrdersProvider from "../contexts/OrderContext";
 import RestaurantProvider from "../contexts/RestaurantContext";
+import SearchProvider from "../contexts/SearchContext";
 import UserProvider from "../contexts/UserContext";
 import useUser from "../hooks/useUser";
 
@@ -13,7 +14,6 @@ function NavigationHandler() {
     if (loading) return;
 
     if (user) {
-      // router.dismissAll();
       router.replace("/home");
     }
   }, [user, loading]);
@@ -27,11 +27,13 @@ export default function RootLayout() {
       <RestaurantProvider>
         <CartProvider>
           <OrdersProvider>
-            <NavigationHandler />
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="(auth)" />
-              <Stack.Screen name="(tabs)" />
-            </Stack>
+            <SearchProvider>
+              <NavigationHandler />
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(auth)" />
+                <Stack.Screen name="(tabs)" />
+              </Stack>
+            </SearchProvider>
           </OrdersProvider>
         </CartProvider>
       </RestaurantProvider>

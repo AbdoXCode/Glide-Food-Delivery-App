@@ -84,7 +84,7 @@ export default function CartProvider({ children }) {
 
   async function submitOrderItems(orderId, cartItems) {
     for (const item of cartItems) {
-      console.log(item);
+      // console.log(item);
       await submitOrderItem(orderId, item.id, item.quantity, item.price);
     }
   }

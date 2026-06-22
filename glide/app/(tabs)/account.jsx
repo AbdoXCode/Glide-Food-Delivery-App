@@ -16,7 +16,7 @@ export default function AccountScreen() {
   const inset = useSafeAreaInsets();
 
   const { user, updateUser, logOut } = useUser();
-  console.log(user);
+  // console.log(user);
 
   function editProfile() {
     if (isEditing) {

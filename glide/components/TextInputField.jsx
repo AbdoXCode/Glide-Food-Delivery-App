@@ -14,6 +14,7 @@ export default function TextInputField({
   keyboardType = "default",
   style,
   editable = true,
+  ...props
 }) {
   return (
     <View style={[styles.fieldGroup, style]}>
@@ -36,6 +37,7 @@ export default function TextInputField({
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
           editable={editable}
+          {...props}
         />
         {isPasswordField && (
           <Pressable onPress={onTogglePassword} style={styles.eyeIcon}>

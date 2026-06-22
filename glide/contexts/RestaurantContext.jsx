@@ -70,7 +70,7 @@ export default function RestaurantProvider({ children }) {
 
   useEffect(() => {
     if (user && user?.user?.id) {
-      fetchRecommendedRestaurants(user.user.id);
+      fetchRecommendedRestaurants(user?.user?.id);
     }
   }, [user]);
 

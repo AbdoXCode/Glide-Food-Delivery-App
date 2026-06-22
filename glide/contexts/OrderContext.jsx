@@ -11,7 +11,7 @@ export default function OrderProvider({ children }) {
   const { user } = useUser();
 
   async function fetchOrders(userId) {
-    console.log("Fetching orders for userId:", userId);
+    // console.log("Fetching orders for userId:", userId);
     try {
       const orders = await getOrdersByUserId(userId);
       setOrders(orders);
