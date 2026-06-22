@@ -15,7 +15,8 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/onboarding/glide logo.jpg")}
+        // "../assets/images/onboarding/glide logo.jpg"
+        source={require("../../assets/images/onboarding/glide logo.jpg")}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -26,7 +27,7 @@ export default function Index() {
       </Text>
 
       <Image
-        source={require("../assets/images/onboarding/onboarding person.png")}
+        source={require("../../assets/images/onboarding/onboarding person.png")}
         style={[styles.characters, { width, marginLeft: -18 }]}
         resizeMode="contain"
       />

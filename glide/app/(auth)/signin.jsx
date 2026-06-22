@@ -34,7 +34,7 @@ export default function SignIn() {
     // Handle sign in logic here
     try {
       await login(email, password);
-      router.push("/home");
+      router.replace("/home");
     } catch (error) {
       console.log("Error during sign in:", error);
     }

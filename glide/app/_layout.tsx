@@ -13,12 +13,14 @@ function NavigationHandler() {
     if (loading) return;
 
     if (user) {
+      // router.dismissAll();
       router.replace("/home");
     }
   }, [user, loading]);
 
   return null;
 }
+
 export default function RootLayout() {
   return (
     <UserProvider>
@@ -26,11 +28,10 @@ export default function RootLayout() {
         <CartProvider>
           <OrdersProvider>
             <NavigationHandler />
-            <Stack
-              screenOptions={{
-                headerShown: false,
-              }}
-            />
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(auth)" />
+              <Stack.Screen name="(tabs)" />
+            </Stack>
           </OrdersProvider>
         </CartProvider>
       </RestaurantProvider>

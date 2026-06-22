@@ -1,8 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { colors } from "../../constants/theme";
+import useUser from "../../hooks/useUser";
 
 export default function ScreensLayout() {
+  const { user, loading } = useUser();
+
+  if (loading) return null;
+
+  if (!user) {
+    return <Redirect href="/(auth)" />;
+  }
   return (
     <Tabs
       screenOptions={{

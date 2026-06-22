@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -27,6 +27,7 @@ export default function AccountScreen() {
         formData.address,
       );
 
+      ToastAndroid.show("Profile updated successfully", ToastAndroid.SHORT);
       setIsEditing(false);
     } else {
       setIsEditing(true);
@@ -120,7 +121,10 @@ export default function AccountScreen() {
         style={styles.logout}
         onPress={() => {
           logOut();
-          router.replace("/");
+          ToastAndroid.show(
+            "Account logged out successfully",
+            ToastAndroid.SHORT,
+          );
         }}
       >
         <Ionicons name="log-out-outline" size={22} color="#fff" />

@@ -12,11 +12,13 @@ import OfferList from "../../components/OfferList";
 import RestaurantList from "../../components/RestaurantList";
 import { colors } from "../../constants/theme";
 import useRestaurants from "../../hooks/useRestaurants";
+import useUser from "../../hooks/useUser";
 
 export default function Home() {
   const inset = useSafeAreaInsets();
 
   const { restaurants, popularRestaurants } = useRestaurants();
+  const { user } = useUser();
   return (
     <ScrollView
       style={styles.container}
@@ -32,7 +34,7 @@ export default function Home() {
               <Text style={{ color: "#ffffff", fontWeight: "300" }}>
                 Deliver to{" "}
                 <Text style={{ fontWeight: "bold", color: "#ffffff" }}>
-                  Alexandria, Egypt
+                  {user?.user?.address || "Alexandria, Egypt"}
                 </Text>
               </Text>
               <Ionicons name="chevron-down" size={18} color="#ffffff" />
