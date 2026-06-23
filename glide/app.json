@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "glide",
+    "name": "Glide",
     "slug": "glide",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,18 +13,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#3EC8B1",
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundImage": "./assets/images/icon.png",
+        "monochromeImage": "./assets/images/icon.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.abdoxcode.glide"
+      "package": "com.abdoxcode.glide",
+      "namespace": "com.abdoxcode.glide"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router",
