@@ -50,7 +50,7 @@ app.post("/login", async (req, res) => {
 
     if (!passwordMatch) {
       return res.status(401).json({
-        message: "wrong password",
+        message: "Wrong Password",
       });
     }
 
@@ -93,6 +93,16 @@ app.post("/register", async (req, res) => {
     if (existingUser.rows.length > 0) {
       return res.status(409).json({
         message: "Email already exists",
+      });
+    }
+    const existingPhone = await db.query(
+      "SELECT * FROM users WHERE phone_number = $1",
+      [phone_number],
+    );
+
+    if (existingPhone.rows.length > 0) {
+      return res.status(409).json({
+        message: "Phone number already exists",
       });
     }
 
