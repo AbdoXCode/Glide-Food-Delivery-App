@@ -21,8 +21,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.abdoxcode.glide",
-      "namespace": "com.abdoxcode.glide",
-      "softwareKeyboardLayoutMode": "resize"
+      "namespace": "com.abdoxcode.glide"
     },
     "web": {
       "output": "static",
