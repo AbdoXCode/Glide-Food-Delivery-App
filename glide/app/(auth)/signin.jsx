@@ -18,6 +18,9 @@ import useUser from "../../hooks/useUser";
 
 export default function SignIn() {
   const [activeTab, setActiveTab] = useState("signin");
+
+  const [error, setError] = useState("");
+
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
@@ -32,19 +35,41 @@ export default function SignIn() {
 
   async function handleSignIn(email, password) {
     // Handle sign in logic here
+    setError(""); // Clear previous error messages
+
+    if (!email || !password) {
+      setError("Please enter email and password");
+      return;
+    }
+
     try {
       await login(email, password);
       router.replace("/home");
     } catch (error) {
       console.log("Error during sign in:", error);
+
+      setError(
+        error?.message || "Login failed. Please check your credentials.",
+      );
     }
   }
   async function handleSignUp(name, email, password, address, phone) {
+    setError(""); // Clear previous error messages
+
+    if (!name || !email || !password || !address || !phone) {
+      setError("Please fill all fields");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
     try {
       await register(name, email, password, address, phone);
       router.push("/home");
     } catch (error) {
       console.log("Error during sign up:", error);
+      setError(error?.message || "Registration failed. Try again.");
     }
   }
 
@@ -133,10 +158,11 @@ export default function SignIn() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.keyboardContainer}
     >
       <ScrollView
+        style={{ backgroundColor: "#ffffff" }}
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
       >
@@ -187,6 +213,7 @@ export default function SignIn() {
             {/* Form */}
 
             {tabSignIn(activeTab)}
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
             <TouchableOpacity
               onPress={() => {
                 if (activeTab === "signin") {
@@ -223,10 +250,11 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
+    minHeight: "100%",
     backgroundColor: "#FFFFFF",
   },
   container: {
-    // flex: 1,
+    flex: 1,
     paddingBottom: 36,
     backgroundColor: "#ffffff",
   },
@@ -306,5 +334,12 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     elevation: 3,
+  },
+  errorText: {
+    color: "#DC2626",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 12,
+    marginBottom: 4,
   },
 });

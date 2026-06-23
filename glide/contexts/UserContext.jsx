@@ -16,7 +16,7 @@ export default function UserProvider({ children }) {
       setLoading(false);
       await AsyncStorage.setItem("user", JSON.stringify(data));
     } catch (error) {
-      console.error("Error logging in(from context):", error);
+      console.log("Error logging in(from context):", error);
       throw error; // Rethrow the error to be handled by the caller
     }
   }
@@ -28,7 +28,7 @@ export default function UserProvider({ children }) {
       setLoading(false);
       await AsyncStorage.setItem("user", JSON.stringify(data));
     } catch (error) {
-      console.error("Error registering(from context):", error);
+      console.log("Error registering(from context):", error);
       throw error; // Rethrow the error to be handled by the caller
     }
   }
@@ -45,7 +45,7 @@ export default function UserProvider({ children }) {
       setUser(updatedUser);
       await AsyncStorage.setItem("user", JSON.stringify(updatedUser));
     } catch (error) {
-      console.error("Error updating user profile:", error);
+      console.log("Error updating user profile:", error);
       throw error;
     }
   }

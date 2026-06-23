@@ -36,7 +36,7 @@ export async function recommendRestaurants(userId) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching recommended restaurants:", error);
+    console.log("Error fetching recommended restaurants:", error);
     throw error;
   }
 }
@@ -61,7 +61,7 @@ export async function loginUser(email, password) {
     }
     return data;
   } catch (error) {
-    console.error("Error in loginUser(from api):", error);
+    console.log("Error in loginUser(from api):", error);
     throw error;
   }
 }
@@ -90,7 +90,7 @@ export async function registerUser(name, email, password, address, phone) {
     }
     return data;
   } catch (error) {
-    console.error("Error in registerUser(from api):", error);
+    console.log("Error in registerUser(from api):", error);
     throw error;
   }
 }
@@ -103,7 +103,7 @@ export async function getRestaurantById(id) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching restaurant by ID:", error);
+    console.log("Error fetching restaurant by ID:", error);
     throw error;
   }
 }
@@ -116,7 +116,7 @@ export async function getMenuByRestaurantId(restaurantId) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching menu by restaurant ID:", error);
+    console.log("Error fetching menu by restaurant ID:", error);
     throw error;
   }
 }
@@ -129,7 +129,7 @@ export async function getOrdersByUserId(userId) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching orders by user ID:", error);
+    console.log("Error fetching orders by user ID:", error);
     throw error;
   }
 }
@@ -142,7 +142,7 @@ export async function getOrderDetails(orderId) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching order details:", error);
+    console.log("Error fetching order details:", error);
     throw error;
   }
 }
@@ -168,7 +168,7 @@ export async function submitOrderApi(userId, restaurantId, status, totalPrice) {
     console.log("Order submitted successfully:", data);
     return data;
   } catch (error) {
-    console.error("Error submitting order:", error);
+    console.log("Error submitting order:", error);
     throw error;
   }
 }
@@ -199,7 +199,7 @@ export async function submitOrderItem(
     console.log("Order item submitted successfully:", data);
     return data;
   } catch (error) {
-    console.error("Error submitting order item:", error);
+    console.log("Error submitting order item:", error);
     throw error;
   }
 }
@@ -231,7 +231,7 @@ export async function updateUserProfile(
     console.log("User profile updated successfully:", data);
     return data;
   } catch (error) {
-    console.error("Error updating user profile:", error);
+    console.log("Error updating user profile:", error);
     throw error;
   }
 }
